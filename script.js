@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const restartButton = document.getElementById('restart-button');
     const scoreDisplay = document.getElementById('score');
     const finalScoreDisplay = document.getElementById('final-score');
-    const monsterImage = document.getElementById('monster-image');
+    // monsterImage constant removed
     const itemImage = document.getElementById('item-image');
     const pictureDisplay = document.getElementById('picture-display');
     const wordOptionsContainer = document.getElementById('word-options');
@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const instructionText = document.getElementById('instruction');
 
     // --- Game Data ---
-    // Add more words and corresponding image paths
     const wordsData = [
         { word: 'apple', image: 'images/apple.png' },
         { word: 'ball', image: 'images/ball.png' },
@@ -33,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentWordIndex = 0;
     let score = 0;
     let shuffledWords = [];
-    let incorrectChoicesCount = 2; // How many wrong words to show (adjust difficulty)
+    let incorrectChoicesCount = 2; // How many wrong words to show
     let currentCorrectWord = '';
     let dragTimeout; // To prevent accidental immediate re-drag after wrong answer
 
@@ -61,7 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function endGame() {
         finalScoreDisplay.textContent = score;
         endScreen.classList.remove('hidden');
-       
     }
 
     function updateScore() {
@@ -71,8 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadNextWord() {
         clearTimeout(dragTimeout); // Clear any pending timeouts
         feedbackDisplay.classList.remove('visible', 'correct', 'incorrect'); // Hide feedback
-        monsterImage.src = 'images/monster_idle.png'; // Reset monster state
-        monsterImage.classList.remove('bounce-animation', 'shake-animation'); // Remove result animations
+        // Monster image references removed
 
         if (currentWordIndex >= shuffledWords.length) {
             endGame();
@@ -122,22 +119,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showFeedback(isCorrect) {
         feedbackDisplay.classList.remove('correct', 'incorrect'); // Clear previous classes
-        feedbackDisplay.textContent = isCorrect ? 'Yummy! Correct!' : 'Oops! Try Again!';
+        feedbackDisplay.textContent = isCorrect ? 'Correct!' : 'Oops! Try Again!'; // Simplified text
         feedbackDisplay.classList.add(isCorrect ? 'correct' : 'incorrect');
         feedbackDisplay.classList.add('visible');
 
-        // Monster animation
-        monsterImage.classList.remove('bounce-animation', 'shake-animation'); // Reset first
-        void monsterImage.offsetWidth; // Trigger reflow to restart animation
-        monsterImage.classList.add(isCorrect ? 'bounce-animation' : 'shake-animation');
-      
+        // Monster animation references removed
 
         // Hide feedback after a delay if incorrect
         if (!isCorrect) {
             setTimeout(() => {
                 feedbackDisplay.classList.remove('visible');
-                monsterImage.src = 'images/monster_idle.png'; // Reset if wrong
-                 monsterImage.classList.remove('shake-animation');
+                 // Monster image references removed
             }, 1500);
         }
     }
@@ -150,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.dataTransfer.effectAllowed = 'move';
         // Optional: slightly fade the dragged element
         setTimeout(() => e.target.style.opacity = '0.5', 0);
-        instructionText.textContent = "Feed me that word!"; // Change instruction while dragging
+        instructionText.textContent = "Place the word here!"; // More generic instruction
     }
 
     // Need listeners on the drop zone
@@ -165,30 +157,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     dropZone.addEventListener('drop', (e) => {
-        e.preventDefault(); // Prevent default drop behavior (like opening link)
+        e.preventDefault(); // Prevent default drop behavior
         dropZone.classList.remove('drag-over');
         instructionText.textContent = "Drag the right word here!"; // Reset instruction
 
         const droppedWord = e.dataTransfer.getData('text/plain');
         const isCorrect = (droppedWord === currentCorrectWord);
 
-        // Restore opacity of all word options (in case drag was cancelled)
+        // Restore opacity of all word options
         document.querySelectorAll('.word-option').forEach(el => el.style.opacity = '1');
 
-        showFeedback(isCorrect);
+        showFeedback(isCorrect); // Show text feedback only
 
         if (isCorrect) {
             score += 10;
             updateScore();
-            triggerConfetti(); // Fun effect!
+            triggerConfetti(); // Keep the confetti effect!
             currentWordIndex++;
             // Add a slight delay before loading the next word
-            setTimeout(loadNextWord, 1200); // Wait for feedback/animation
+            setTimeout(loadNextWord, 1200); // Wait for feedback text fade/confetti
         } else {
              score -= 2; // Small penalty (optional)
              if(score < 0) score = 0; // Don't go below zero
              updateScore();
-             // Temporarily disable dragging after incorrect answer to prevent spamming
+             // Temporarily disable dragging after incorrect answer
              wordOptionsContainer.style.pointerEvents = 'none';
              dragTimeout = setTimeout(() => {
                  wordOptionsContainer.style.pointerEvents = 'auto';
@@ -221,6 +213,6 @@ document.addEventListener('DOMContentLoaded', () => {
     restartButton.addEventListener('click', startGame);
 
     // --- Initial Setup ---
-    // Show start screen initially (handled by CSS 'visible' class)
+    // Handled by CSS 'visible' class on start screen
 
 }); // End DOMContentLoaded
