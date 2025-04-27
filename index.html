@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Monster Fun!</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+    <div class="background-animation">
+        <!-- Subtle background elements -->
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+    </div>
+
+    <div id="game-container">
+        <h1>Feed the Word Monster!</h1>
+
+        <div id="score-board">
+            Score: <span id="score">0</span>
+        </div>
+
+        <div id="monster-area">
+            <!-- Monster image will be background of drop-zone -->
+            <div id="drop-zone" class="droppable">
+                <img id="monster-image" src="images/monster_idle.png" alt="Friendly Monster">
+                <p id="instruction">Drag the right word here!</p>
+            </div>
+            <div id="feedback" class="hidden"></div> <!-- Correct/Incorrect feedback -->
+        </div>
+
+
+        <div id="picture-display">
+            <p>What is this?</p>
+            <img id="item-image" src="" alt="Word item image" >
+        </div>
+
+        <div id="word-options">
+            <!-- Draggable word options will be added here by JS -->
+        </div>
+
+        <div id="start-screen" class="overlay visible">
+             <img src="images/monster_happy.png" alt="Happy Monster" width="150">
+             <h2>Ready to Learn Words?</h2>
+             <button id="start-button">Start Game!</button>
+        </div>
+
+        <div id="end-screen" class="overlay hidden">
+            <img src="images/monster_celebrate.png" alt="Celebrating Monster" width="150">
+            <h2>Great Job!</h2>
+            <p>Your final score: <span id="final-score">0</span></p>
+            <button id="restart-button">Play Again?</button>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
