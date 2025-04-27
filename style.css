@@ -89,34 +89,64 @@ h1 {
 }
 
 
+/* In style.css */
+
 #picture-display {
-    margin-bottom: 30px;
+    margin-bottom: 20px; /* Adjust spacing as needed */
+    /* --- ADD OR ADJUST THIS --- */
+    /* Option A: Fixed Height (Simpler if images are roughly same aspect ratio) */
+    height: 180px; /* Example: A bit more than max-height of image + padding/text */
+
+    /* Option B: Max Height (More flexible if aspect ratios vary) */
+    /* max-height: 180px; */
+
+    /* --- ADD THIS --- */
+    display: flex; /* Use flexbox for better internal alignment */
+    flex-direction: column; /* Stack text and image vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically (optional) */
 }
 
 #picture-display p {
     font-size: 1.3em;
-    margin-bottom: 10px;
+    margin-bottom: 10px; /* Adjust as needed */
     color: #555;
+    /* Remove default margins that might add extra space */
+    margin-top: 0;
 }
 
+/* In style.css */
+
 #item-image {
-    max-width: 150px;
-    max-height: 150px;
+    /* KEEP THESE */
+    max-width: 150px; /* Or your desired max width */
+    max-height: 150px; /* Or your desired max height */
     border: 5px solid #fff;
     border-radius: 15px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    background-color: #eee; /* Placeholder background */
+    background-color: #eee;
     animation: fadeIn 0.5s ease-in-out;
+
+    /* --- ADD OR ENSURE THIS LINE EXISTS --- */
+    object-fit: contain; /* Scales the image down to fit within the container while preserving aspect ratio */
+    display: block; /* Helps prevent extra space below inline images */
+    margin: 0 auto; /* Center the image horizontally if its container is wider */
 }
+
+/* In style.css */
 
 #word-options {
     display: flex;
     justify-content: center;
-    gap: 15px; /* Space between words */
-    flex-wrap: wrap; /* Allow words to wrap on smaller screens */
-    min-height: 50px; /* Prevent collapsing */
+    gap: 15px;
+    flex-wrap: wrap;
+    min-height: 50px; /* Make sure this is enough for at least one row of words */
+    padding: 10px 0; /* Add some vertical padding inside the container */
+    /* --- ENSURE IT'S VISIBLE --- */
+    width: 100%; /* Make sure it takes available width */
+    box-sizing: border-box; /* Include padding in width calculation */
+    overflow: visible; /* Ensure words aren't clipped if they slightly overflow */
 }
-
 .word-option {
     background-color: #ffcc5c;
     color: #fff;
