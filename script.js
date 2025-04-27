@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function endGame() {
         finalScoreDisplay.textContent = score;
         endScreen.classList.remove('hidden');
-        monsterImage.src = 'images/monster_celebrate.png'; // Show celebrating monster
+       
     }
 
     function updateScore() {
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         monsterImage.classList.remove('bounce-animation', 'shake-animation'); // Reset first
         void monsterImage.offsetWidth; // Trigger reflow to restart animation
         monsterImage.classList.add(isCorrect ? 'bounce-animation' : 'shake-animation');
-        monsterImage.src = isCorrect ? 'images/monster_happy.png' : 'images/monster_sad.png'; // Change monster expression
+      
 
         // Hide feedback after a delay if incorrect
         if (!isCorrect) {
