@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word Monster Fun!</title>
+    <title>Word Fun!</title> <!-- Updated Title -->
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
     <!-- Canvas Confetti Library -->
@@ -20,19 +20,20 @@
     </div>
 
     <div id="game-container">
-        <h1>Feed the Word Monster!</h1>
+        <h1>Match the Word!</h1> <!-- Updated Heading -->
 
         <div id="score-board">
             Score: <span id="score">0</span>
         </div>
 
-        <div id="monster-area">
-            <!-- Monster image will be background of drop-zone -->
+        <div id="monster-area"> <!-- Kept area div for structure -->
+             <!-- Monster Image Element REMOVED -->
+
+             <!-- Drop zone is the main element here -->
             <div id="drop-zone" class="droppable">
-               
                 <p id="instruction">Drag the right word here!</p>
             </div>
-            <div id="feedback" class="hidden"></div> <!-- Correct/Incorrect feedback -->
+            <div id="feedback" class="hidden"></div> <!-- Feedback text remains -->
         </div>
 
 
@@ -46,13 +47,12 @@
         </div>
 
         <div id="start-screen" class="overlay visible">
-             <img src="images/monster_happy.png" alt="Happy Monster" width="150">
+             <!-- Monster image REMOVED from start screen -->
              <h2>Ready to Learn Words?</h2>
              <button id="start-button">Start Game!</button>
         </div>
 
         <div id="end-screen" class="overlay hidden">
-           
             <h2>Great Job!</h2>
             <p>Your final score: <span id="final-score">0</span></p>
             <button id="restart-button">Play Again?</button>
