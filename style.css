@@ -1,0 +1,304 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+
+body {
+    font-family: 'Fredoka One', cursive;
+    background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden; /* Hide overflow for background animations */
+    color: #333;
+}
+
+#game-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative; /* Needed for overlay positioning */
+    width: 90%;
+    max-width: 700px;
+    z-index: 10; /* Above background animations */
+}
+
+h1 {
+    color: #ff6b6b;
+    margin-bottom: 20px;
+    font-size: 2.5em;
+}
+
+#score-board {
+    font-size: 1.5em;
+    color: #4ecdc4;
+    margin-bottom: 20px;
+}
+
+#monster-area {
+    margin-bottom: 20px;
+    position: relative; /* For feedback positioning */
+}
+
+#drop-zone {
+    width: 180px; /* Adjust size as needed */
+    height: 180px;
+    margin: 10px auto;
+    border: 3px dashed #ccc;
+    border-radius: 50%; /* Make it round */
+    display: flex;
+    flex-direction: column; /* Stack image and text */
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    position: relative; /* Needed for monster image positioning */
+    background-color: #f0f0f0;
+}
+
+#monster-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Keep aspect ratio */
+    position: absolute; /* Position inside the drop-zone */
+    top: 0;
+    left: 0;
+    transition: transform 0.2s ease-in-out;
+    z-index: 1; /* Below instruction text */
+}
+
+#instruction {
+    margin-top: 120px; /* Push text below the monster image visually */
+    font-size: 0.9em;
+    color: #888;
+    z-index: 2; /* Above monster image */
+    background: rgba(255, 255, 255, 0.7); /* Make text readable */
+    padding: 2px 5px;
+    border-radius: 5px;
+}
+
+#drop-zone.drag-over {
+    background-color: #e0ffe0;
+    border-color: #4ecdc4;
+}
+
+#drop-zone.drag-over #monster-image {
+    transform: scale(1.1) rotate(5deg); /* Fun effect on drag over */
+}
+
+
+#picture-display {
+    margin-bottom: 30px;
+}
+
+#picture-display p {
+    font-size: 1.3em;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+#item-image {
+    max-width: 150px;
+    max-height: 150px;
+    border: 5px solid #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #eee; /* Placeholder background */
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+#word-options {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Space between words */
+    flex-wrap: wrap; /* Allow words to wrap on smaller screens */
+    min-height: 50px; /* Prevent collapsing */
+}
+
+.word-option {
+    background-color: #ffcc5c;
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-size: 1.4em;
+    cursor: grab;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    user-select: none; /* Prevent text selection during drag */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: popIn 0.3s ease-out forwards;
+    opacity: 0; /* Start hidden for popIn animation */
+    /* Stagger animation */
+    animation-delay: calc(var(--i, 0) * 0.1s);
+}
+
+.word-option:active {
+    cursor: grabbing;
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Feedback Styles */
+#feedback {
+    position: absolute;
+    bottom: -40px; /* Position below the monster */
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 15px;
+    border-radius: 15px;
+    font-size: 1.2em;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 20; /* Above monster area */
+}
+
+#feedback.visible {
+    opacity: 1;
+    transform: translate(-50%, 10px); /* Slide up slightly */
+}
+
+#feedback.correct {
+    background-color: #5cb85c; /* Green */
+}
+
+#feedback.incorrect {
+    background-color: #d9534f; /* Red */
+}
+
+/* Overlay Screens */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px; /* Match container */
+    transition: opacity 0.5s ease-in-out, visibility 0.5s;
+    z-index: 100;
+    opacity: 1;
+    visibility: visible;
+}
+
+.overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.overlay h2 {
+    font-size: 2.5em;
+    color: #ff6b6b;
+    margin-bottom: 15px;
+}
+
+.overlay p {
+    font-size: 1.5em;
+    color: #4ecdc4;
+    margin-bottom: 25px;
+}
+
+.overlay button {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.5em;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 30px;
+    background-color: #ff9a8b;
+    background-image: linear-gradient(90deg, #ff9a8b 0%, #ff6a88 50%, #ff99ac 100%);
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+.overlay button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes popIn {
+    0% { opacity: 0; transform: scale(0.5); }
+    80% { opacity: 1; transform: scale(1.1); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+/* Incorrect Shake Animation */
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+.shake-animation {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* Correct Bounce Animation for Monster */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+  40% {transform: translateY(-15px);}
+  60% {transform: translateY(-7px);}
+}
+
+.bounce-animation {
+    animation: bounce 0.6s ease;
+}
+
+/* Background Animations */
+.background-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none; /* Allow clicks through */
+}
+
+.star, .cloud {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    animation: move 20s linear infinite;
+}
+
+.star {
+    width: 5px;
+    height: 5px;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+}
+.cloud {
+    width: 80px;
+    height: 30px;
+    border-radius: 15px;
+    opacity: 0.5;
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 10px 10px rgba(255, 255, 255, 0.6), -15px 5px rgba(255, 255, 255, 0.6); /* Simple cloud shape */
+    animation-duration: 40s; /* Clouds move slower */
+}
+
+/* Position background elements randomly (can be enhanced with JS) */
+.star:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+.star:nth-child(2) { top: 50%; left: 80%; animation-delay: 5s; }
+.star:nth-child(3) { top: 80%; left: 40%; animation-delay: 10s; }
+.cloud:nth-child(4) { top: 15%; left: 20%; animation-delay: 2s; }
+.cloud:nth-child(5) { top: 70%; left: 70%; animation-delay: 15s; }
+
+
+@keyframes move {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(20px, -30px) rotate(180deg); }
+    100% { transform: translate(0, 0) rotate(360deg); }
+}
